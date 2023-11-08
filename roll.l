@@ -6,36 +6,33 @@ int am_b = 0;
 
 %%
 
-[Bb][Ll]\.[eE][nN]\.[uU][4][Cc][Ss][Ee][2][0-4][0-9]{3} {
+[Bb][Ll]\.[eE][nN]\.[uU][4][Cc][Ss][Ee][12][0-4][0-9]{3} {
     printf("Valid Bangalore branch\n");
     bl_b++;
+    
 }
 
-[aA][mM]\.[eE][nN]\.[uU][4][Cc][Ss][Ee][2][0-4][0-9]{3} {
+[aA][mM]\.[eE][nN]\.[uU][4][Cc][Ss][Ee][12][0-4][0-9]{3} {
     printf("Valid Amriatpuri branch\n");
-    am_b++;
-}
-
-[C-Zc-z0-9]* {
+    am_b++;}
+    
+.* {
     printf("Invalid\n");
+    return 0;
 }
 
 %%
 
-int yywrap() {}
+int yywrap() {return 1;}
 
 int main() {
     yyin = fopen("reg.txt", "r");
-
-    while (yylex() != 0) {
-        // Process each line
-    }
-
+    yyout=fopen("output.txt","w");
+    while(yylex()!=0){};
+    fprintf(yyout,"Total Bangalore branches: %d\n", bl_b);
+    fprintf(yyout,"Total Amriatpuri branches: %d\n", am_b);
     fclose(yyin);
-
-    printf("Total Bangalore branches: %d\n", bl_b);
-    printf("Total Amriatpuri branches: %d\n", am_b);
-
+    fclose(yyout);
     return 0;
 }
 
